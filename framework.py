@@ -197,22 +197,6 @@ class Browser(object):
         WebDriverWait(self.driver, 60).until(
             ec.visibility_of_element_located((By.XPATH, "//li[@class=' qq-upload-success']")))
 
-    def upload_file_alt(self, value, order=1, order_list=1):
-        self.wait.loading()
-        # открываем страницу с формой загрузки файла
-        element = self.driver.find_element(By.XPATH, "(//input[@type='file'])[%s]" % order)
-        element.clear()
-        element.send_keys("%s/%s" % (os.getcwd(), value))
-        WebDriverWait(self.driver, 60).until(
-            ec.visibility_of_element_located((By.XPATH, "(//ul[@class='qq-upload-list'])[%s]" % order_list)))
-
-    def upload_photo(self, value):
-        self.wait.loading()
-        # открываем страницу с формой загрузки файла
-        element = self.driver.find_element(By.XPATH, "//input[@type='file']")
-        element.clear()
-        element.send_keys("%s/%s" % (os.getcwd(), value))
-
 
 class Date(object):
     """
