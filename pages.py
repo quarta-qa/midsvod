@@ -11,3 +11,9 @@ class LoginPage(Browser):
 
     def submit(self):
         self.click(LoginLocators.submit, "Войти")
+
+
+class MainPage(Browser):
+
+    def menu(self):
+        self.click(MainLocators.menu, "Меню")
