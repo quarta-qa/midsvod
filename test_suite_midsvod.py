@@ -113,3 +113,4 @@ class TestSuite:
         page.menu()
         page.click_by_text("Настройки")
         assert "ФИО" in self.driver.page_source
+
