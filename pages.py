@@ -17,3 +17,6 @@ class MainPage(Browser):
 
     def menu(self):
         self.click(MainLocators.menu, "Меню")
+
+    def search(self):
+        self.set_text(MainLocators.search, "Поле поиска")

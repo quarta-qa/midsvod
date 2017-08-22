@@ -9,4 +9,4 @@ class LoginLocators(object):
 
 class MainLocators(object):
     menu = (By.XPATH, "//i[@class='qa-header-icon-menu-left-sitebar']")
-
+    search = (By.XPATH, "//input[@class='searchInput ng-pristine ng-valid']")
