@@ -18,5 +18,10 @@ class MainPage(Browser):
     def menu(self):
         self.click(MainLocators.menu, "Меню")
 
-    def search(self):
-        self.set_text(MainLocators.search, "Поле поиска")
+    def search(self, value):
+        self.set_text(MainLocators.search, value, "Поле поиска")
+        self.click((By.XPATH, "//li[contains(., '%s')]" % value))
+
+    def second_search(self, value):
+        self.set_text(MainLocators.second_search, value, "Поле поиска")
+        self.click((By.XPATH, "//li[contains(., '%s')]" % value))

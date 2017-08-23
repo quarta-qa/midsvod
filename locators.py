@@ -10,3 +10,6 @@ class LoginLocators(object):
 class MainLocators(object):
     menu = (By.XPATH, "//i[@class='qa-header-icon-menu-left-sitebar']")
     search = (By.XPATH, "//input[@class='searchInput ng-pristine ng-valid']")
+    second_search = (By.XPATH, "//input[@class='searchInput ng-valid ng-dirty']")
+    link_tabl = (By.XPATH, "//tr[@class='ng-scope'][]")
+

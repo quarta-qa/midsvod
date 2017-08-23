@@ -197,6 +197,28 @@ class Browser(object):
         WebDriverWait(self.driver, 60).until(
             ec.visibility_of_element_located((By.XPATH, "//li[@class=' qq-upload-success']")))
 
+    def select_month(self, year, month):
+        months = {
+            1: "Янв",
+            2: "Фев",
+            3: "Мар",
+            4: "Апр",
+            5: "Май",
+            6: "Июнь",
+            7: "Июль",
+            8: "Авг",
+            9: "Сен",
+            10: "Окт",
+            11: "Ноя",
+            12: "Дек"
+        }
+        self.click((By.XPATH, "//a[@class='periods__btn btn seasons dropdown-toggle ng-binding']"))
+        sleep(2)
+        if year != datetime.date.today().year:
+            self.click((By.XPATH, "//span[.='prevLabel']"))
+        self.click((By.XPATH, "//span[@class='ui-button-text'][.='%s']" % months[month]))
+        self.accept_alert()
+
 
 class Date(object):
     """
