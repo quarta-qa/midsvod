@@ -25,3 +25,6 @@ class MainPage(Browser):
     def second_search(self, value):
         self.set_text(MainLocators.second_search, value, "Поле поиска")
         self.click((By.XPATH, "//li[contains(., '%s')]" % value))
+
+    def open_form(self):
+        self.click(MainLocators.link_form, "Открытие формы")
