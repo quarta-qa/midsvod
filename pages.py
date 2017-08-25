@@ -28,3 +28,7 @@ class MainPage(Browser):
 
     def open_form(self):
         self.click(MainLocators.link_form, "Открытие формы")
+
+    def exit_account(self):
+        self.click(MainLocators.exit_account, "Выход из аккаунта")
+

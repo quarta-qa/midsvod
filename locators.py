@@ -12,3 +12,7 @@ class MainLocators(object):
     search = (By.XPATH, "//input[@class='searchInput ng-pristine ng-valid']")
     second_search = (By.XPATH, "//input[@class='searchInput ng-valid ng-dirty']")
     link_form = (By.XPATH, "(//tr)[1]")
+    exit_account = (By.XPATH, "//i[@class='qa-header-icon-exit']")
+
+
+
