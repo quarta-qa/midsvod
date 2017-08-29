@@ -14,5 +14,6 @@ class MainLocators(object):
     link_form = (By.XPATH, "(//tr)[1]")
     exit_account = (By.XPATH, "//i[@class='qa-header-icon-exit']")
 
-
-
+class ChessLocators(object):
+    search_organization = (By.XPATH, "(//input)[2]")
+    search_code_form = (By.XPATH, "(//input)[3]")

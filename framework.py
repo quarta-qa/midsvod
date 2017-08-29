@@ -77,6 +77,15 @@ class Browser(object):
             sleep(.1)
         print("Переход по ссылке: %s" % url)
 
+    @staticmethod
+    def is_file_exist(file_name):
+        path = r"C:/"
+        try:
+            open(path + file_name)
+            print("File exist")
+        except FileNotFoundError:
+            print("File not exist!")
+
     def move_to_element(self, element):
         self.wait.loading()
         webdriver.ActionChains(self.driver).move_to_element(element).perform()
@@ -264,10 +273,10 @@ class Data(object):
     Methods for working with data
     """
     @staticmethod
-    def load_data(file):
+    def load(file):
         script_path = os.path.dirname(__file__)
-        filename = os.path.join(script_path, '%s.json' % file)
-        return json.loads(open(filename, encoding="utf8").read())
+        return json.loads(open("%s\data\%s.json" %
+                               (script_path, file), encoding="utf8").read())
 
     @staticmethod
     def get_data_by_value(data, parent, key, value):

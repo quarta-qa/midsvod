@@ -1,6 +1,6 @@
 from pages import *
 from links import Links
-import glob
+
 
 class TestSuite:
 
@@ -23,22 +23,47 @@ class TestSuite:
         page.username("svodzu")
         page.password("123")
         page.submit()
+        data = Data.load("data")
+        print(data["test"]["directory"])
 
-    def test_example(self):
+    def test_selection_of_the_reporting_period(self):
         """
-        Выбор подотчетного года и месяц + заготовка на проверку перехода в подрежимы Справочники черех Меню
+        Выбор отчетного периода (год и месяц)
         """
         page = MainPage(self.driver)
-
         page.select_month(2017, 6)
-        sleep(10)
 
+    def test_menu_monitoring_chess(self):
+        """
+        Переход в режим Мониторинг - Шахматка.
+        (Меню - Маниторинг - Шахматка)
+        """
+        page = MainPage(self.driver)
         page.menu()
-        page.click_by_text("Справочники")
-        page.click_by_text("КБК (финансирования)")
-        # page.wait.text_appear("Год  актуальности")
-        assert "Год  актуальности" in self.driver.page_source
+        page.click_by_text("Мониторинг")
+        page.click_by_text("Шахматка")
+        assert "Организация" in self.driver.page_source
 
+    def test_monitoring_chess_search_fields_by_name_organization_and_by_code_form(self):
+        """
+        Мониторинг - Шахматка. Тестирование полей поиска по названию организации и по коду формы (ОКУД)
+        """
+        page = ChessPage(self.driver)
+        page.search_organization("Бразилия")
+        page.search_code_form("0503126 МЭР ЗУ – Справка об остатках денежных средств")
+        assert page.table_check("Бразилия", "4")
+
+    # def_test_example(self):
+    #     """
+    #     заготовка на проверку перехода в подрежимы Справочники черех Меню
+    #     """
+    #     page = MainPage(self.driver)
+    #     page.menu()
+    #     page.click_by_text("Справочники")
+    #     page.click_by_text("КБК (финансирования)")
+    #     # page.wait.text_appear("Год  актуальности")
+    #     assert "Год  актуальности" in self.driver.page_source
+    #
     # def test_menu_monitoring_chess(self):
     #     """
     #     Меню - Мониторинг - Шахматка
@@ -333,7 +358,7 @@ class TestSuite:
         Тест поля поиска
         """
         page = MainPage(self.driver)
-        page.search("Испания")
+        page.search("Бразилия")
         sleep(1)
         page.second_search("0503121")
         sleep(1)
@@ -357,50 +382,12 @@ class TestSuite:
         page.click_by_text("Мониторинг по статусам")
         assert "Количество форм" in self.driver.page_source
 
-    # def test_print_on_the_page__monitoring_by_status(self):
-    #     """
-    #     Тестирование кнопки печать
-    #     Необходимо дописать проверку наличия в директории, сформированного для печати файла
-    #     """
-    #     page = MainPage(self.driver)
-    #     page.click_by_text("Печать")
-
-    def file_inspect(self, filename):
+    def test_print_on_the_page__monitoring_by_status(self):
         """
-        проверка наличия в директории файла, сформированного для печати
-        """
-        sleep(5)
-        data = load_data("employee")
-        os.chdir(data["reportFile"]["directory"]) # Смена текущего каталога
-        if glob.glob(filename):
-            print('Отчет:' + filename)
-        else:
-            print('No report file')
-            self.driver.save_screenshot(filename + '.png')
-            self.driver.get(Links.main_page)
-            os.chdir(data["reportFile"]["directoryDefault"])
-            assert glob.glob(filename)
-        os.chdir(data["reportFile"]["directoryDefault"])
-        print("Link: %s" % data["reportFile"]["directory"] + filename)
-
-    def test_go_through_monitoring_by_status_in_the_form_registry(self):
-        """
-
-        Переход через Мониторинг по статусам в реестр
+        Тестирование кнопки печать
         """
         page = MainPage(self.driver)
-        n=1
-        country = {}
-        country[n+1] =
+        page.click_by_text("Печать")
 
-
-
-
-        number = 2
-        page.set_select(By.XPATH, "/div[@class='ng-scope']/div[@class='ng-binding ng-scope ng-isolate-scope'][.=%s]" % number/div[class="qgrid-body-cell tbl1___q__col__3"])
-        if
-
-
-        page.click_by_value()
 
 

@@ -1,8 +1,6 @@
 {
-    "accounts": [
-        {
-            "username": "admin",
-            "password": "quarta"
-        }
-    ]
+  "test": {
+    "directory": "test of data using via method load_data",
+    "default": "C:\\"
+  }
 }
