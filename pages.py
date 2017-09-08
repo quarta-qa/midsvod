@@ -1,9 +1,5 @@
 from locators import *
 
-import json
-import os
-import glob
-
 
 class LoginPage(Browser):
 
@@ -31,10 +27,39 @@ class MainPage(Browser):
         self.click((By.XPATH, "//li[contains(., '%s')]" % value))
 
     def open_form(self):
-        self.click(MainLocators.link_form, "Открытие формы")
+        self.click(MainLocators.link_form_0503121, "Открытие формы")
 
     def exit_account(self):
         self.click(MainLocators.exit_account, "Выход из аккаунта")
+
+    def checking_form_registry_filter(self, country, value):
+        self.wait.element_appear((By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems'][1]//td[.='%s']" % country))
+        n = 1
+        table_country = self.driver.find_element(
+            By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']['%c']//td[2]" % n).text
+        table_value = self.driver.find_element(
+            By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']['%c']//td[3]" % n).text
+        while n < 3:
+            if (country == table_country) and (value == table_value):
+                print(table_country, table_value)
+            elif (country != table_country) or (value != table_value):
+                return False
+            n = n + 1
+
+    def checking_saving_another_mode_filter(self, country, values):
+        self.wait.element_appear(
+                    By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']//td[.='%s']" % country)
+        table_values = self.driver.find_element(
+                    By.XPATH, "//div[@class='search-tag-group ng-scope']").text
+        if values == table_values:
+            return True
+        else:
+            return False
+
+class MonitoringByStatusPage(Browser):
+
+    def click_on_the_element_of_forms(self):
+        self.click(MonitoringByStatusLocators.number_of_submitted_forms, "Открытие режима Реестр форм")
 
 
 class ChessPage(Browser):
@@ -48,8 +73,8 @@ class ChessPage(Browser):
         self.click((By.XPATH, "//li[contains(., '%s')]" % value))
 
     def table_check(self, country, value):
-        self.wait.element_appear((By.XPATH,
-                                  "//tr[@ng-repeat='row in rows']//span[.='%s']" % country))
+        self.wait.element_appear(
+                By.XPATH, "//tr[@ng-repeat='row in rows']//span[.='%s']" % country)
         table_country = self.driver.find_element(
             By.XPATH, "//tr[@ng-repeat='row in rows']//td[2]").text
         table_value = self.driver.find_element(

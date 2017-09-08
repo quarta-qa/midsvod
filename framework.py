@@ -79,7 +79,7 @@ class Browser(object):
 
     @staticmethod
     def is_file_exist(file_name):
-        path = r"C:/"
+        path = r"C:/Users/BuldakovAV/Downloads/"
         try:
             open(path + file_name)
             print("File exist")
@@ -222,7 +222,7 @@ class Browser(object):
             12: "Дек"
         }
         self.click((By.XPATH, "//a[@class='periods__btn btn seasons dropdown-toggle ng-binding']"))
-        sleep(2)
+        sleep(3)
         if year != datetime.date.today().year:
             self.click((By.XPATH, "//span[.='prevLabel']"))
         self.click((By.XPATH, "//span[@class='ui-button-text'][.='%s']" % months[month]))

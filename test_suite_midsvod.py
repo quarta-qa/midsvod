@@ -33,6 +33,27 @@ class TestSuite:
         page = MainPage(self.driver)
         page.select_month(2017, 6)
 
+    def test_page_forms_registry_search_field(self):
+        """
+        НЕ РАБОТАЕТ при негативном тестировании
+        Тест поля поиска в режиме "Реестр форм" (MainPage)
+        По умолчанию главной страницей является "Реестр форм"
+        """
+        page = MainPage(self.driver)
+        page.search("Бразилия")
+        sleep(1)
+        page.second_search("0503121")
+        sleep(1)
+        page.checking_form_registry_filter("Бразилия", "0503121mer")
+
+    def test_page_forms_registry_open_form(self):
+        """
+        Открытие формы в режиме "Реестр форм"
+        """
+        page = MainPage(self.driver)
+        page.open_form()
+        page.wait.element_appear(MainLocators.find_element_form_0503121)
+
     def test_menu_monitoring_chess(self):
         """
         Переход в режим Мониторинг - Шахматка.
@@ -44,16 +65,65 @@ class TestSuite:
         page.click_by_text("Шахматка")
         assert "Организация" in self.driver.page_source
 
-    def test_monitoring_chess_search_fields_by_name_organization_and_by_code_form(self):
-        """
-        Мониторинг - Шахматка. Тестирование полей поиска по названию организации и по коду формы (ОКУД)
-        """
-        page = ChessPage(self.driver)
-        page.search_organization("Бразилия")
-        page.search_code_form("0503126 МЭР ЗУ – Справка об остатках денежных средств")
-        assert page.table_check("Бразилия", "4")
+    # def test_monitoring_chess_search_fields_by_name_organization_and_by_code_form(self):
+    #     """
+    #     НА ДАННЫЙ МОМЕНТ РЕЖИМ РАБОТАЕТ НЕКОРРЕКТНО
+    #     Мониторинг - Шахматка. Тестирование полей поиска по названию организации и по коду формы (ОКУД)
+    #     """
+    #     page = ChessPage(self.driver)
+    #     page.search_organization("Бразилия")
+    #     page.search_code_form("0503126 МЭР ЗУ – Справка об остатках денежных средств")
+    #     assert page.table_check("Бразилия", "4")
+    #
+    # def test_transition_through_the_mode_of_monitoring_chess_in_the_forms_registry_mode(self):
+    #     """
+    #     Переход через режим "Мониторинг" - "Шахматка" в режим "Реестр форм"
+    #     """
+    #     page = ChessPage(self.driver)
+    #     page.click_by_text("4")
+    #
+    #     assert "Бразилия" in self.driver.page_source
+    #     sleep(10)
 
-    # def_test_example(self):
+    # def test_forms_registry_check_save_filter_in_the_transition_from_the_mode_monitoring_chess(self):
+    #     """
+    #     НЕОБХОДИМО ДОПИСАТЬ
+    #     Проверка сохранения фильтра при переходе из режима "Мониторинг"-"Шахматка":
+    #     """
+    #     table_value = self.driver.find_element((
+    #         By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems'][1]/td[@ng-repeat='desc in columns'][2]")).text
+    #     print(table_value)
+    #     # page = MainPage(self.driver)
+    #     # page.table_check_filter()
+
+    def test_menu_monitoring_monitoring_by_status(self):
+        """
+        Меню - Мониторинг - Мониторинг по статусам
+        """
+        page = MainPage(self.driver)
+        page.menu()
+        page.click_by_text("Мониторинг")
+        page.click_by_text("Мониторинг по статусам")
+        assert "Количество форм" in self.driver.page_source
+
+    def test_print_in_the_mode__monitoring_by_status(self):
+        """
+        Тестирование кнопки печать в режиме "Мониторинг по статусам"
+        """
+        page = MainPage(self.driver)
+        page.click_by_text("Печать")
+        page.is_file_exist("test.xlsx")
+
+    def test_transition_through_the_mode_of_monitoring_chess_in_the_mode_forms_registry(self):
+        """
+        Переход через режим "Мониторинг по статусам" в режим "Реестр форм"
+        """
+        page = MonitoringByStatusPage(self.driver)
+        page.click_on_the_element_of_forms()
+        page = MainPage(self.driver)
+        page.checking_saving_another_mode_filter("ЮАР", "Отправлен")
+
+        # def_test_example(self):
     #     """
     #     заготовка на проверку перехода в подрежимы Справочники черех Меню
     #     """
@@ -84,16 +154,6 @@ class TestSuite:
     #     page.click_by_text("Списочный мониторинг")
     #     page.wait.text_appear("Наименование организации")
     #     assert "Наименование организации" in self.driver.page_source
-    #
-    # def test_menu_monitoring_monitoring_by_status(self):
-    #     """
-    #     Меню - Мониторинг - Мониторинг по статусам
-    #     """
-    #     page = MainPage(self.driver)
-    #     page.menu()
-    #     page.click_by_text("Мониторинг")
-    #     page.click_by_text("Мониторинг по статусам")
-    #     assert "Количество форм" in self.driver.page_source
     #
     # def test_menu_monitoring_deleted_documents(self):
     #     """
@@ -343,51 +403,15 @@ class TestSuite:
     #     page.click_by_text("Исходные коды")
     #     assert "Исходники" in self.driver.page_source
 
-    def test_menu_form_registry(self):
-        """
-        Меню - Реестр форм
-        """
-        page = MainPage(self.driver)
-        page.menu()
-        page.click_by_text("Реестр форм")
-        page.wait.text_appear("Организация")
-        assert "Организация" in self.driver.page_source
-
-    def test_page_form_registry_search_field(self):
-        """
-        Тест поля поиска
-        """
-        page = MainPage(self.driver)
-        page.search("Бразилия")
-        sleep(1)
-        page.second_search("0503121")
-        sleep(1)
-
-    def test_page_form_registry_open_form(self):
-        """
-        Открытие формы
-        """
-        page = MainPage(self.driver)
-        page.open_form()
-        page.wait.text_appear("Принять к рассмотрению")
-        assert "Принять к рассмотрению" in self.driver.page_source
-
-    def test_menu_monitoring_monitoring_by_status(self):
-        """
-        Меню - Мониторинг - Мониторинг по статусам
-        """
-        page = MainPage(self.driver)
-        page.menu()
-        page.click_by_text("Мониторинг")
-        page.click_by_text("Мониторинг по статусам")
-        assert "Количество форм" in self.driver.page_source
-
-    def test_print_on_the_page__monitoring_by_status(self):
-        """
-        Тестирование кнопки печать
-        """
-        page = MainPage(self.driver)
-        page.click_by_text("Печать")
-
-
-
+    # def test_menu_form_registry(self):
+    #     """
+    #     Меню - Реестр форм
+    #     """
+    #     page = MainPage(self.driver)
+    #     page.menu()
+    #     page.click_by_text("Реестр форм")
+    #     page.wait.text_appear("Организация")
+    #     assert "Организация" in self.driver.page_source
+    #
+    #
+    #
