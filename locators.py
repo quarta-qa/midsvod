@@ -19,7 +19,7 @@ class MainLocators(object):
 
 
 class MonitoringByStatusLocators(object):
-    number_of_submitted_forms = (By.XPATH, "'//tr[@class = 'pivotRow'][contains(., 'Бразилия')]//td[3]")
+    number_of_submitted_forms = (By.XPATH, "//tr[@class = 'pivotRow'][contains(., 'Бразилия')]//td[3]")
 
 
 class ChessLocators(object):

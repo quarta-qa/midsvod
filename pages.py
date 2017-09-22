@@ -32,29 +32,30 @@ class MainPage(Browser):
     def exit_account(self):
         self.click(MainLocators.exit_account, "Выход из аккаунта")
 
-    def checking_form_registry_filter(self, country, value):
-        self.wait.element_appear((By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems'][1]//td[.='%s']" % country))
-        n = 1
-        table_country = self.driver.find_element(
-            By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']['%c']//td[2]" % n).text
-        table_value = self.driver.find_element(
-            By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']['%c']//td[3]" % n).text
-        while n < 3:
-            if (country == table_country) and (value == table_value):
-                print(table_country, table_value)
-            elif (country != table_country) or (value != table_value):
+    def checking_form_registry_filter(self, country, value, order=1):
+        self.wait.element_appear((By.XPATH, "(//tr[@ng-repeat='item in plainGroupedItems']//td[2])[%s]" % order))
+        while order < 3:
+            table_country = self.driver.find_element(
+                By.XPATH, "(//tr[@ng-repeat='item in plainGroupedItems']//td[2])[%s]" % order).text
+            table_value = self.driver.find_element(
+                By.XPATH, "(//tr[@ng-repeat='item in plainGroupedItems']//td[3])[%s]" % order).text
+            print(table_country, country, table_value, value)
+            if country == table_country and value == table_value:
+                order += 1
+            else:
                 return False
-            n = n + 1
+        return True
 
     def checking_saving_another_mode_filter(self, country, values):
-        self.wait.element_appear(
-                    By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']//td[.='%s']" % country)
+        self.wait.element_appear((
+                    By.XPATH, "//tr[@ng-repeat='item in plainGroupedItems']//td[.='%s']" % country))
         table_values = self.driver.find_element(
                     By.XPATH, "//div[@class='search-tag-group ng-scope']").text
         if values == table_values:
             return True
         else:
             return False
+
 
 class MonitoringByStatusPage(Browser):
 

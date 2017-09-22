@@ -35,7 +35,6 @@ class TestSuite:
 
     def test_page_forms_registry_search_field(self):
         """
-        НЕ РАБОТАЕТ при негативном тестировании
         Тест поля поиска в режиме "Реестр форм" (MainPage)
         По умолчанию главной страницей является "Реестр форм"
         """
@@ -44,7 +43,7 @@ class TestSuite:
         sleep(1)
         page.second_search("0503121")
         sleep(1)
-        page.checking_form_registry_filter("Бразилия", "0503121mer")
+        assert page.checking_form_registry_filter("Бразилия", "0503121mer")
 
     def test_page_forms_registry_open_form(self):
         """
@@ -121,7 +120,7 @@ class TestSuite:
         page = MonitoringByStatusPage(self.driver)
         page.click_on_the_element_of_forms()
         page = MainPage(self.driver)
-        page.checking_saving_another_mode_filter("ЮАР", "Отправлен")
+        assert page.checking_saving_another_mode_filter("ЮАР", "Отправлен")
 
         # def_test_example(self):
     #     """
