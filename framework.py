@@ -6,9 +6,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
+from xlutils.copy import copy as xlcopy
 import datetime
 import os
 import json
+import xlrd
+import hashlib
+
 
 
 class Browser(object):

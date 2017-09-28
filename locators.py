@@ -16,10 +16,16 @@ class MainLocators(object):
     find_element_form_0503121 = (
         By.XPATH, "//div[@class='q-grid-state-read q-mask ng-binding ng-scope'][contains(.,'Расходы')]")
     exit_account = (By.XPATH, "//i[@class='qa-header-icon-exit']")
+    month = (By.XPATH, "//a[@class='periods__btn btn seasons dropdown-toggle ng-binding'][contains(text(), 'июнь')]")
 
 
 class MonitoringByStatusLocators(object):
     number_of_submitted_forms = (By.XPATH, "//tr[@class = 'pivotRow'][contains(., 'Бразилия')]//td[3]")
+
+
+class ScheduledMonitoringLocators(object):
+    all_checkboxes_on_one_page = (By.XPATH, "//thead[@class='header']//input[@type = 'checkbox']")
+    checkboxes = (By.XPATH, "(//tr[@class='itemRow ']//input[@type='checkbox'])[3]")
 
 
 class ChessLocators(object):

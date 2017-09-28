@@ -28,26 +28,29 @@ class TestSuite:
 
     def test_selection_of_the_reporting_period(self):
         """
-        Выбор отчетного периода (год и месяц)
-        """
+         Выбор отчетного периода (год и месяц)
+         По умолчанию главной страницей является "Реестр форм" (MainPage)
+         """
         page = MainPage(self.driver)
         page.select_month(2017, 6)
+        page.wait.element_appear(MainLocators.month)
+        page.wait.text_appear("Организация")
 
     def test_page_forms_registry_search_field(self):
         """
-        Тест поля поиска в режиме "Реестр форм" (MainPage)
-        По умолчанию главной страницей является "Реестр форм"
+        Поиск форм по организации и номеру в режиме "Реестр форм"
         """
         page = MainPage(self.driver)
         page.search("Бразилия")
         sleep(1)
         page.second_search("0503121")
         sleep(1)
+        page.wait.text_appear("Организация")
         assert page.checking_form_registry_filter("Бразилия", "0503121mer")
 
     def test_page_forms_registry_open_form(self):
         """
-        Открытие формы в режиме "Реестр форм"
+        Открытие формы в режиме "Реестр форм" из списка отфильтрованных по организации и номеру формы
         """
         page = MainPage(self.driver)
         page.open_form()
@@ -55,7 +58,7 @@ class TestSuite:
 
     def test_menu_monitoring_chess(self):
         """
-        Переход в режим Мониторинг - Шахматка.
+        Переход в режим Мониторинг - Шахматка через меню.
         (Меню - Маниторинг - Шахматка)
         """
         page = MainPage(self.driver)
@@ -76,7 +79,7 @@ class TestSuite:
     #
     # def test_transition_through_the_mode_of_monitoring_chess_in_the_forms_registry_mode(self):
     #     """
-    #     Переход через режим "Мониторинг" - "Шахматка" в режим "Реестр форм"
+    #     Переход из режим "Мониторинг" - "Шахматка" в режим "Реестр форм"
     #     """
     #     page = ChessPage(self.driver)
     #     page.click_by_text("4")
@@ -97,7 +100,9 @@ class TestSuite:
 
     def test_menu_monitoring_monitoring_by_status(self):
         """
-        Меню - Мониторинг - Мониторинг по статусам
+        Переход в режим "Мониторинг по статусам" через меню
+        (Меню - Мониторинг - Мониторинг по статусам)
+
         """
         page = MainPage(self.driver)
         page.menu()
@@ -116,13 +121,50 @@ class TestSuite:
     def test_transition_through_the_mode_of_monitoring_chess_in_the_mode_forms_registry(self):
         """
         Переход через режим "Мониторинг по статусам" в режим "Реестр форм"
+        Необходимо дописать проверку сохранения фильтра по странам (на данный момент не реализовано на портале).
+        Реализована только проверка сохранения фильтра по статусу
         """
         page = MonitoringByStatusPage(self.driver)
         page.click_on_the_element_of_forms()
         page = MainPage(self.driver)
-        assert page.checking_saving_another_mode_filter("ЮАР", "Отправлен")
+        assert page.checking_saving_another_mode_filter("Бразилия", "Отправлен")
 
-        # def_test_example(self):
+    def test_menu_monitoring_schedule_monitoring(self):
+        """
+        Переход в режим "Списочный мониторинг" через меню.
+        Меню - Мониторинг - Списочный мониторинг
+        """
+        page = MainPage(self.driver)
+        page.menu()
+        page.click_by_text("Мониторинг")
+        page.click_by_text("Списочный мониторинг")
+        page.wait.text_appear("Наименование организации")
+        assert "Наименование организации" in self.driver.page_source
+
+    def test_scheduled_monitoring_putting_all_checkboxes_on_one_page(self):
+        """
+        Режим "Списочный мониторинг". Выделение галками всех форм на одной странице.
+        """
+        page = ScheduledMonitoringPage(self.driver)
+        page.click_on_the_checkboxes()
+        sleep(3)
+
+    def test_print_in_the_mode__scheduled_monitoring(self):
+        """
+        Тестирование кнопки "Печать мониторинга" в режиме "Списочный мониторинг"
+        """
+        page = ScheduledMonitoringPage(self.driver)
+        page.click_by_text("Печать мониторинга")
+        page.wait.element_appear(ScheduledMonitoringLocators.checkboxes)
+        page.is_file_exist("Журнал.xlsx")
+
+    def test_scheduled_monitoring_check_the_printed_form(self):
+        """
+       Сравнения печатной формы с эталоном
+        """
+        analyze_two_files("Журнал.xlsx")
+
+    # def_test_example(self):
     #     """
     #     заготовка на проверку перехода в подрежимы Справочники черех Меню
     #     """

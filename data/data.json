@@ -2,5 +2,10 @@
   "test": {
     "directory": "test of data using via method load_data",
     "default": "C:\\"
+  },
+  "way": {
+    "directory": "C:\\Users\\BuldakovAV\\Downloads\\",
+    "directoryCompare": "C:\\Compare\\"
+
   }
 }
